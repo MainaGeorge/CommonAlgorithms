@@ -6,8 +6,10 @@ namespace CommonAlgorithms
     {
         static void Main(string[] args)
         {
-            var str = "abbaca";
-            Console.WriteLine(Algorithms.RemoveDuplicatesUsingPointer(str));
+            const string name = "deeedbbcccbdaa";
+
+            Console.WriteLine(Algorithms.RemoveDuplicates(name, 3));
         }
+
     }
 }

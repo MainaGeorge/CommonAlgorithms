@@ -533,7 +533,7 @@ namespace CommonAlgorithms
             return !stack.Any();
         }
 
-        public static int EvalRPN(string[] tokens)
+        public static int EvalRpn(string[] tokens)
         {
             /*
                 Evaluate the value of an arithmetic expression in Reverse Polish Notation.
@@ -611,15 +611,14 @@ namespace CommonAlgorithms
         public static bool IsValidPalindrome(string toTest)
         {
             /*
-             Given a non-empty string s, you may delete at most one character. Judge whether you can make it a palindrome.
-
-                    Example 1:
-                    Input: "aba"
-                    Output: True
-                    Example 2:
-                    Input: "abca"
-                    Output: True
-                    Explanation: You could delete the character 'c'.
+                Given a non-empty string s, you may delete at most one character. Judge whether you can make it a palindrome.
+                Example 1:
+                Input: "aba"
+                Output: True
+                Example 2:
+                Input: "abca"
+                Output: True
+                Explanation: You could delete the character 'c'.
              */
             var startPointer = 0;
             var endPointer = toTest.Length - 1;
@@ -705,12 +704,12 @@ namespace CommonAlgorithms
             return new string((result.ToString()).Reverse().ToArray());
         }
 
-        public static string RemoveDuplicatesUsingPointer(string S)
+        public static string RemoveDuplicatesUsingPointer(string s)
         {
             var topLetterPointer = -1;
             var result = new StringBuilder();
 
-            foreach (var character in S)
+            foreach (var character in s)
             {
                 if (topLetterPointer == -1 || result[topLetterPointer] != character)
                 {
@@ -727,6 +726,56 @@ namespace CommonAlgorithms
             return result.ToString();
         }
 
+        public static string RemoveDuplicates(string s, int k)
+        {
+            var stack = new Stack<(char Value, int Count)>();
+            var result = new StringBuilder();
+
+            foreach (var character in s)
+            {
+                if (!stack.Any() || character != stack.Peek().Value)
+                    stack.Push((character, 1));
+                else
+                {
+                    var topTuple = stack.Pop();
+                    topTuple.Count++;
+
+                    if (topTuple.Count != k)
+                        stack.Push(topTuple);
+                }
+
+            }
+
+            while (stack.Any())
+            {
+                var (value, count) = stack.Pop();
+                while (count > 0)
+                {
+                    result.Append(value);
+                    count--;
+                }
+            }
+
+            return new string((result.ToString()).Reverse().ToArray());
+        }
+
+        public static IList<string> FizzBuzz(int n)
+        {
+            var result = new string[n];
+            for (var i = 1; i <= n; i++)
+            {
+                if (i % 3 == 0 && i % 5 == 0)
+                    result[i - 1] = "FizzBuzz";
+                else if (i % 3 == 0)
+                    result[i - 1] = "Fizz";
+                else if (i % 5 == 0)
+                    result[i - 1] = "Buzz";
+                else
+                    result[i - 1] = i.ToString();
+            }
+
+            return result;
+        }
     }
 }
 
