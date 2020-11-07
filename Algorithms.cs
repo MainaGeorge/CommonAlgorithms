@@ -684,7 +684,7 @@ namespace CommonAlgorithms
                 Return the final string after all such duplicate removals have been made.  It is guaranteed the answer is unique.
             Input: "abbaca"
             Output: "ca"
-            Explanation: 
+            Explanation:
             For example, in "abbaca" we could remove "bb" since the letters are adjacent and equal, and this is the only possible move.
             The result of this move is that the string is "aaca", of which only "aa" is possible, so the final string is "ca".
             */
@@ -775,6 +775,185 @@ namespace CommonAlgorithms
             }
 
             return result;
+        }
+
+        public static void PrintNumbers(int n)
+        {
+            if (n == 0)
+                return;
+
+            PrintNumbers(n - 1);
+
+            Console.WriteLine(n);
+
+        }
+
+        public static int NumberOfDigits(int n)
+        {
+            var count = 0;
+            while (n > 0)
+            {
+                count++;
+                n /= 10;
+            }
+
+            return count;
+        }
+
+        public static int NumberOfDigitsRecursive(int n)
+        {
+            if (n == 0)
+                return 0;
+
+            return 1 + NumberOfDigitsRecursive(n / 10);
+        }
+
+        public static int SumOfDigits(int n)
+        {
+            var sum = 0;
+            while (n != 0)
+            {
+                sum += n % 10;
+                n /= 10;
+            }
+
+            return sum;
+        }
+
+        public static int SumOfDigitsRecursive(int n)
+        {
+            if (n == 0)
+                return 0;
+
+            return SumOfDigitsRecursive(n / 10) + n % 10;
+        }
+
+        public static int Multiplication(int number, int factor)
+        {
+            var result = 0;
+            while (factor > 0)
+            {
+                result += number;
+                factor--;
+            }
+
+            return result;
+        }
+
+        public static int MultiplicationRecursive(int number, int factor)
+        {
+            if (factor == 0)
+                return 0;
+
+            return MultiplicationRecursive(number, factor - 1) + number;
+        }
+
+        public static double GeometricSum(int k)
+        {
+            /* sum = 1/2^0 + 1/2^1 + 1/2^2 ...... + 1/2^(k-1) + 1/2^k; */
+            if (k == 0)
+                return 1;
+            return GeometricSum(k - 1) + 1 / Math.Pow(2, k);
+        }
+
+        public static void SelectionSort(int[] source)
+        {
+            for (var index = 0; index < source.Length - 1; index++)
+            {
+                var smallestElementIndex = GetSmallestElementIndex(index, source);
+
+                if (smallestElementIndex != index)
+                    SwapElements(source, smallestElementIndex, index);
+            }
+        }
+
+        private static void SwapElements(IList<int> source, int smallestElementIndex, int index)
+        {
+            var temp = source[smallestElementIndex];
+            source[smallestElementIndex] = source[index];
+            source[index] = temp;
+        }
+
+        private static int GetSmallestElementIndex(int presumedSmallestIndex, IReadOnlyList<int> source)
+        {
+            for (var currentIndex = presumedSmallestIndex + 1; currentIndex < source.Count; currentIndex++)
+            {
+                if (source[presumedSmallestIndex] > source[currentIndex])
+                    presumedSmallestIndex = currentIndex;
+            }
+
+            return presumedSmallestIndex;
+        }
+
+        public static void BubbleSort(int[] source)
+        {
+            for (var outerIndex = 1; outerIndex < source.Length; outerIndex++)
+            {
+                var hasSwappingOccurred = false;
+                for (var innerIndex = 0; innerIndex < source.Length - 1; innerIndex++)
+                {
+                    if (source[innerIndex + 1] >= source[innerIndex]) continue;
+
+                    SwapElements(source, innerIndex, innerIndex + 1);
+                    hasSwappingOccurred = true;
+                }
+                if (!hasSwappingOccurred) break;
+            }
+        }
+
+        private static int GetFirstOrLastIndexOfATargetInASortedArray(int[] source, int target, bool first)
+        {
+            var startingIndex = 0;
+            var endingIndex = source.Length - 1;
+            var foundIndex = -1;
+            while (startingIndex <= endingIndex)
+            {
+                var midIndex = startingIndex + (endingIndex - startingIndex) / 2;
+                if (source[midIndex] > target)
+                    endingIndex = midIndex - 1;
+                else if (source[midIndex] < target)
+                    startingIndex = midIndex + 1;
+                else
+                {
+                    foundIndex = midIndex;
+                    if (first)
+                        endingIndex = midIndex - 1;
+                    else
+                        startingIndex = midIndex + 1;
+
+                }
+            }
+
+            return foundIndex;
+        }
+
+        public static int[] GetFirstAndLastIndexOfATargetInASortedArray(int[] source, int target)
+        {
+            var firstIndex = GetFirstOrLastIndexOfATargetInASortedArray(source, target, true);
+            if (firstIndex == -1)
+                return new[] { -1, -1 };
+
+            var secondIndex = GetFirstOrLastIndexOfATargetInASortedArray(source, target, false);
+
+            return new[] { firstIndex, secondIndex };
+        }
+        public static int Reverse(int x)
+        {
+            var isNegative = x < 0;
+
+            if (isNegative)
+                x *= -1;
+
+            var result = new StringBuilder();
+            while (x > 0)
+            {
+                result.Append(x % 10);
+                x /= 10;
+            }
+
+            var success = int.TryParse(result.ToString(), out var finalAnswer);
+
+            return success ? (isNegative ? finalAnswer * -1 : finalAnswer) : 0;
         }
     }
 }

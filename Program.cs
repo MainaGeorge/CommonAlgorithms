@@ -6,9 +6,7 @@ namespace CommonAlgorithms
     {
         static void Main(string[] args)
         {
-            const string name = "deeedbbcccbdaa";
-
-            Console.WriteLine(Algorithms.RemoveDuplicates(name, 3));
+            Console.WriteLine(Algorithms.Reverse(-123));
         }
 
     }
