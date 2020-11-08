@@ -6,7 +6,7 @@ namespace CommonAlgorithms
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(Algorithms.Reverse(-123));
+            Console.WriteLine(Algorithms.SquareRoot(53));
         }
 
     }

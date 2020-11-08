@@ -955,6 +955,85 @@ namespace CommonAlgorithms
 
             return success ? (isNegative ? finalAnswer * -1 : finalAnswer) : 0;
         }
+
+        public static int SquareRoot(int square)
+        {
+            if (square == 0)
+                return 0;
+            var startingNumber = 1;
+            var answer = 0;
+            var endingNumber = square;
+
+            while (startingNumber <= endingNumber)
+            {
+                var middleNumber = startingNumber + (endingNumber - startingNumber) / 2;
+
+                if (middleNumber == square / middleNumber)
+                    return middleNumber;
+                if (middleNumber < square / middleNumber)
+                {
+                    answer = middleNumber;
+                    startingNumber = middleNumber + 1;
+                }
+                else
+                    endingNumber = middleNumber - 1;
+            }
+
+            return answer;
+        }
+
+        public static int FindMinimumNumberInARotatedArray(int[] rotatedArray)
+        {
+            var arrLength = rotatedArray.Length;
+            var startingIndex = 0;
+            var endingIndex = arrLength - 1;
+
+            if (arrLength == 1) //we need at least two elements since we will make it cyclic, to calculate next and previous
+                return rotatedArray[0];
+
+            while (startingIndex <= endingIndex)
+            {
+                var midIndex = startingIndex + (endingIndex - startingIndex) / 2;
+                var nextIndex = (midIndex + 1) % arrLength; // in case the index is more than arrLength we move to the beginning;
+                var previousIndex = (midIndex - 1 + arrLength) % arrLength; // in case the index is less than 0 we move to the last element;
+
+                if (rotatedArray[midIndex] < rotatedArray[previousIndex] &&
+                    rotatedArray[midIndex] < rotatedArray[nextIndex])
+                    return rotatedArray[midIndex];
+                if (rotatedArray[midIndex] > rotatedArray[endingIndex])
+                    startingIndex = midIndex + 1;
+                else
+                    endingIndex = midIndex - 1;
+
+            }
+
+            return -1;
+        }
+
+        public static int FindHowManyTimesASortedArrayHasBeenRotated(int[] rotatedArray)
+        {
+            var arrLength = rotatedArray.Length;
+            var startingIndex = 0;
+            var endingIndex = arrLength - 1;
+
+            while (startingIndex <= endingIndex)
+            {
+                var midIndex = startingIndex + (endingIndex - startingIndex) / 2;
+                var nextIndex = (midIndex + 1) % arrLength; // in case the index is more than arrLength we move to the beginning;
+                var previousIndex = (midIndex - 1 + arrLength) % arrLength; // in case the index is less than 0 we move to the last element;
+
+                if (rotatedArray[midIndex] < rotatedArray[previousIndex] &&
+                    rotatedArray[midIndex] < rotatedArray[nextIndex])
+                    return midIndex;
+                if (rotatedArray[midIndex] > rotatedArray[endingIndex])
+                    startingIndex = midIndex + 1;
+                else
+                    endingIndex = midIndex - 1;
+
+            }
+
+            return -1; // this is just to make the compiler happy
+        }
     }
 }
 
